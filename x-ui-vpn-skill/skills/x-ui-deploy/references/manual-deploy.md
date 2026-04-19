@@ -458,6 +458,9 @@ $VLESS_LINK
   - X-UI DB:     /etc/x-ui/x-ui.db
   - Xray Config: /usr/local/x-ui/bin/config.json (auto-generated, don't edit)
   - Certs:       /root/cert/
+
+## Optional: 直连主力 + CF 兜底（进阶，跑通基础后再看）
+  references/cf-dns-strategy.md
 CFGEOF
 
 chmod 600 /root/vpn-config.txt

@@ -1,6 +1,6 @@
 # x-ui-deploy
 
-一个 Claude Code Skill，通过 SSH 在 VPS 上自动部署 VLESS + XHTTP + TLS + Cloudflare CDN 架构的 VPN 服务。
+一个 Claude Code Skill，通过 SSH 在 VPS 上自动部署 VLESS + XHTTP + TLS + Cloudflare CDN 架构的 VPN 服务。**目标：以最少的步骤把梯子搭起来能用**。
 
 ## 架构
 
@@ -14,8 +14,10 @@
 | 传输方式 | XHTTP over TLS |
 | 管理面板 | 3X-UI (MHSanaei) |
 | 反向代理 | Nginx |
-| SSL 证书 | acme.sh + Cloudflare DNS 验证 |
+| SSL 证书 | acme.sh + Cloudflare DNS 验证（通配符 `*.example.com`） |
 | CDN | Cloudflare（隐藏真实 IP） |
+
+> **进阶**：跑通基础部署后，如果想再加一条直连节点（更快、IP 被封时仍可切回 CF），见 `x-ui-vpn-skill/skills/x-ui-deploy/references/cf-dns-strategy.md`。新部署时不必关心。
 
 ## 为什么用 XHTTP 而不是 WebSocket
 
@@ -68,7 +70,8 @@ skills/x-ui-deploy/
 └── references/
     ├── manual-deploy.md           # 部署执行蓝图（15 步完整命令）
     ├── troubleshooting.md         # 故障排查 + 踩坑经验
-    └── maintenance.md             # 日常运维 + 安全加固
+    ├── maintenance.md             # 日常运维 + 安全加固
+    └── cf-dns-strategy.md         # 进阶：直连 + CF 兜底双线路（可选，跑通基础后再读）
 ```
 
 ## 安全特性

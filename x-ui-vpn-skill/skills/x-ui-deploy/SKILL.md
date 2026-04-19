@@ -1,19 +1,21 @@
 ---
 name: x-ui-deploy
-version: "3.0"
+version: "4.1"
 description: |
-  Deploy, configure, or maintain a VLESS + XHTTP + TLS + Cloudflare CDN VPN service
-  using the 3X-UI panel on a VPS. Use this skill when the user mentions: deploying a
-  VPN server, setting up a proxy, installing x-ui/3x-ui, configuring VLESS/XHTTP,
-  科学上网、翻墙、搭建代理、VPN 节点部署、Cloudflare CDN 代理配置。
-  Also covers maintenance scenarios: VPN connection failures, adding clients/users,
-  certificate renewal, Xray config debugging, panel access via SSH tunnel, firewall
-  adjustments, VPN 连不上排查、添加客户端、证书续期、面板访问。
+  Deploy a working VLESS + XHTTP + TLS + Cloudflare CDN VPN service on a fresh VPS
+  using the 3X-UI panel. Goal: get a working proxy node up as quickly as possible.
+  Use this skill when the user mentions: deploying a VPN server, setting up a proxy,
+  installing x-ui/3x-ui, configuring VLESS/XHTTP, 科学上网、翻墙、搭建代理、VPN 节
+  点部署、Cloudflare CDN 代理配置。Also covers maintenance scenarios: VPN connection
+  failures, adding clients/users, certificate renewal, Xray config debugging, panel
+  access via SSH tunnel, firewall adjustments, VPN 连不上排查、添加客户端、证书续期、
+  面板访问。Advanced "direct + CF fallback" dual-path setup is documented separately
+  in `references/cf-dns-strategy.md` as an opt-in optimization after the basic deploy works.
 ---
 
 # X-UI VPN 部署
 
-部署 VLESS + XHTTP + TLS + Cloudflare CDN 架构的 VPN 服务。
+部署一套 VLESS + XHTTP + TLS + Cloudflare CDN 架构的 VPN 服务。**目标：把梯子搭起来能用就行**——基础部署优先，进阶玩法（直连主力、CF 优选 IP、双线路兜底）见 `references/cf-dns-strategy.md`，等用户跑通基础版再按需开启。
 
 ## 架构
 
@@ -50,9 +52,11 @@ description: |
 | 4 | SSH 认证方式 | 密码 or 密钥（密钥需路径） | `~/.ssh/id_rsa` |
 | 5 | 根域名 | 已添加到 Cloudflare 的域名 | `example.com` |
 | 6 | 子域名前缀 | VPN 节点名称，默认 `node1` | `node1` |
-| 7 | 邮箱 | 用于 SSL 证书注册 | `you@email.com` |
+| 7 | 证书邮箱 | 用于 SSL 证书注册 | `you@email.com` |
 | 8 | CF 认证方式 | Global API Key 或 API Token | 二选一 |
-| 9 | CF 凭据 | Key+Email 或 Token 值 | — |
+| 9 | CF 凭据 | Key/Token + **CF 账户邮箱**（如选 Key 方式） | — |
+
+> ⚠️ **小坑提醒**：CF 账户邮箱（注册 CF 时用的）**不一定等于** Q7 的证书邮箱。如选 Global API Key 方式，邮箱填错会报 `Unknown X-Auth-Key or X-Auth-Email`。让用户去 CF 面板右上角头像下确认。
 
 #### 收集时的引导话术
 
@@ -76,6 +80,7 @@ description: |
 >
 > **方式一（推荐）**：Global API Key + 邮箱
 > - 获取：https://dash.cloudflare.com/profile/api-tokens → 查看 Global API Key
+> - ⚠️ 邮箱填 **Cloudflare 账户的注册邮箱**（CF 面板右上角头像下能看到），不一定等于上一轮的证书邮箱
 >
 > **方式二**：API Token
 > - 获取：https://dash.cloudflare.com/profile/api-tokens → 创建令牌
@@ -85,17 +90,20 @@ description: |
 
 #### 信息验证
 
-收集完所有信息后，汇总确认：
+收集完所有信息后，用占位符模板汇总确认（实际输出时把 `{...}` 换成用户提供的值）：
 
 ```
 请确认以下部署信息：
-  服务器:    root@203.0.113.50:22 (密钥认证)
-  域名:      node1.example.com
-  邮箱:      you@email.com
-  CF 认证:   Global API Key
+  服务器:        {SSH_USER}@{SERVER_IP}:{SSH_PORT}  ({密码|密钥} 认证)
+  域名:          {SUBDOMAIN_PREFIX}.{ROOT_DOMAIN}
+  证书邮箱:      {EMAIL}
+  CF 账户邮箱:   {CF_EMAIL}         ← 与证书邮箱可能不同
+  CF 认证:       {Global API Key | API Token}
 
 确认无误后开始部署。
 ```
+
+> 所有 `{...}` 占位符必须来自用户输入，不要用文档里的示例值（`203.0.113.50`、`example.com` 等是 RFC 占位符，仅用于演示格式）。
 
 用户确认后才进入第二步。
 
@@ -144,6 +152,8 @@ description: |
 | 3 | 最低 TLS 版本 | 设为 `1.2` |
 | 4 | WebSocket | 开启（Network 选项卡，XHTTP 经过 CF 时仍需此选项） |
 
+> 部署完成、确认能上网之后，如果想要"直连为主、CF 作兜底"的进阶配置（更快、IP 被封时仍能切换），见 `references/cf-dns-strategy.md`。**新部署的用户不必现在看**。
+
 ---
 
 ## 客户端配置
@@ -160,6 +170,8 @@ vless://{UUID}@{DOMAIN}:443?encryption=none&security=tls&sni={DOMAIN}&type=xhttp
 2. **端口必须是 443**，不是内部端口 10000
 3. **必须有 `security=tls`、`sni` 和 `fp=chrome`**（fp 是 uTLS 指纹伪装，让 TLS 握手看起来像 Chrome 浏览器）
 4. **面板导出的链接不能直接用**——端口、TLS、传输类型参数都是错的，必须按上面的格式自己拼
+
+> 想加直连节点（更快、IP 被封时仍可切回 CF）？基础部署跑通后再读 `references/cf-dns-strategy.md`。
 
 ### 推荐客户端
 
@@ -181,6 +193,7 @@ vless://{UUID}@{DOMAIN}:443?encryption=none&security=tls&sni={DOMAIN}&type=xhttp
 | 连不上、502、SSL 错误等 | 读取 `references/troubleshooting.md` |
 | 添加客户端、证书续期、服务管理 | 读取 `references/maintenance.md` |
 | 想了解手动部署的详细步骤 | 读取 `references/manual-deploy.md` |
+| 想加直连节点（更快）/ 走 CF 卡顿想优化 | 读取 `references/cf-dns-strategy.md` |
 
 ---
 

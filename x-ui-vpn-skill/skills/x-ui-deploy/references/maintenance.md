@@ -130,6 +130,7 @@ chmod 600 /root/vpn-config.txt
 - [ ] 检查 SSL 证书有效期
 - [ ] 查看 Fail2Ban 拦截记录：`fail2ban-client status sshd`
 - [ ] 更新系统软件包：`apt update && apt upgrade`
+- [ ] 看一眼 VPS 控制台的当月流量用量（KiwiVM/Vultr/GCP 等首页通常都有），接近上限时准备应对
 
 ### 每季度
 

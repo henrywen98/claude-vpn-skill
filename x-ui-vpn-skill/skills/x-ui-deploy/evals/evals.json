@@ -1,0 +1,19 @@
+{
+  "skill_name": "x-ui-deploy",
+  "evals": [
+    {
+      "id": 1,
+      "name": "fresh-deploy-minimal-friction",
+      "prompt": "我想在 VPS 上搭一个 VPN 翻墙用，怎么开始？",
+      "expected_output": "skill 进入信息收集阶段，按 3 轮顺序问完 9 项基础信息（服务器、域名、CF 凭据），不要在收集阶段问用户'重度场景'/'月流量'等无关问题。架构描述应是基础的'CF → Nginx → Xray'单路径，不要主动推销双线路。占位符全部用 {…}，不要把示例值（如 203.0.113.50、xxx@gmail.com）当默认值。最终目的：把梯子搭起来能用。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "convert-existing-cf-only-to-dual-path",
+      "prompt": "我现在有一套 VPN 在跑，单走 Cloudflare CDN，最近老感觉抖动。可不可以加个直连作为主力？我服务器是普通的 BGP 段美国机器，月流量 1TB，域名挂在 CF 上是橙云。已经能 SSH 登录服务器。",
+      "expected_output": "skill 应识别这是改造（不是新部署），不要求重新执行 manual-deploy 的全部 15 步。给出基于 cf-dns-strategy.md 的改造方案：(1) CF 加灰云根域 A 记录；(2) 客户端新增直连节点（IP override，SNI 保留子域）；(3) 保留现有 CF 节点作兜底；(4) 提示 IP 被封时如何切换。明确说服务器侧无需改动。不要建议关掉 CF 橙云。",
+      "files": []
+    }
+  ]
+}
