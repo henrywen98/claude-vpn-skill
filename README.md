@@ -60,6 +60,25 @@
 
 ### 2️⃣ 安装 skill
 
+#### 🚀 方式 A：一句话让 AI 自己装（最简单）
+
+把下面这段话直接发给 Claude Code / Codex CLI / OpenCode 的任一个：
+
+```
+安装这个 skill：https://github.com/henrywen98/vpn-deploy-skill
+
+做法：git clone 后，把 x-ui-vpn-skill/skills/x-ui-deploy 这个目录复制到你当前
+CLI 对应的 skills 目录（Claude Code 是 ~/.claude/skills/，Codex CLI 是
+~/.codex/skills/，OpenCode 是 ~/.config/opencode/skills/ 或 ~/.claude/skills/）。
+装完验证一下能被识别，然后删掉 clone 出来的临时目录。
+```
+
+AI 会自动识别自己是哪个 CLI、git clone、复制、清理、确认。整个过程一条指令搞定。
+
+> Gemini CLI 因为走 Extensions 体系不是 1:1 映射，需要手动处理——见方式 B 的备注。
+
+#### 📦 方式 B：手动复制（或者想精细控制位置）
+
 先把仓库拉下来：
 
 ```bash

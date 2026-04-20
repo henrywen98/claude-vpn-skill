@@ -64,6 +64,26 @@ Client → Cloudflare CDN (443) → Nginx (TLS reverse proxy) → Xray (127.0.0.
 
 ### 2️⃣ Install the skill
 
+#### 🚀 Option A: One-prompt install (easiest)
+
+Paste this into Claude Code / Codex CLI / OpenCode:
+
+```
+Install this skill: https://github.com/henrywen98/vpn-deploy-skill
+
+How: git clone the repo, then copy the folder x-ui-vpn-skill/skills/x-ui-deploy
+into the skills directory of the CLI you're currently running (Claude Code:
+~/.claude/skills/, Codex CLI: ~/.codex/skills/, OpenCode: ~/.config/opencode/skills/
+or ~/.claude/skills/). Verify the skill is recognized, then remove the cloned
+temp directory.
+```
+
+The AI will auto-detect which CLI it is, clone, copy, clean up, and verify — all in one shot.
+
+> Gemini CLI uses a different Extensions system (not 1:1 with SKILL.md). Handle it manually via Option B.
+
+#### 📦 Option B: Manual copy (or if you want to pick the location)
+
 First clone the repo:
 
 ```bash
