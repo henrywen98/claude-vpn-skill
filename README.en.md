@@ -64,12 +64,24 @@ Client → Cloudflare CDN (443) → Nginx (TLS reverse proxy) → Xray (127.0.0.
 
 ### 2️⃣ Install the skill
 
+First clone the repo:
+
 ```bash
 git clone https://github.com/henrywen98/vpn-deploy-skill.git
-cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/
 ```
 
-### 3️⃣ Tell Claude
+Then drop the skill into your AI CLI's skills directory:
+
+| CLI | Install command | Notes |
+|---|---|---|
+| **[Claude Code](https://claude.com/claude-code)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | Native skill support |
+| **[OpenAI Codex CLI](https://developers.openai.com/codex/cli)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.codex/skills/` | Recognizes the same `SKILL.md` format |
+| **[OpenCode](https://opencode.ai)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | Natively reads `~/.claude/skills/`, shares directory with Claude Code |
+| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `cat vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy/SKILL.md > ./GEMINI.md` | Gemini uses an Extensions system. Simplest path: inject `SKILL.md` as project-level context |
+
+> 💡 **Project-level install**: Replace `~/.claude/skills/` (or `~/.codex/skills/`) with in-repo `.claude/skills/` (or `.codex/skills/`) to scope the skill to one project.
+
+### 3️⃣ Tell your AI
 
 ```
 Help me deploy a VPN

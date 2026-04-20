@@ -60,13 +60,24 @@
 
 ### 2️⃣ 安装 skill
 
+先把仓库拉下来：
+
 ```bash
 git clone https://github.com/henrywen98/vpn-deploy-skill.git
-# 把 skill 复制到你的 Claude Code skills 目录
-cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/
 ```
 
-### 3️⃣ 对 Claude 说这句话
+然后根据你用的 AI CLI 把 skill 放到对应目录：
+
+| CLI | 安装命令 | 备注 |
+|---|---|---|
+| **[Claude Code](https://claude.com/claude-code)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | 原生 skill 支持 |
+| **[OpenAI Codex CLI](https://developers.openai.com/codex/cli)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.codex/skills/` | 识别同样的 `SKILL.md` 格式 |
+| **[OpenCode](https://opencode.ai)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | 原生读取 `~/.claude/skills/`，与 Claude 共用目录 |
+| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `cat vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy/SKILL.md > ./GEMINI.md` | Gemini 用 Extensions 系统，简化做法是把 SKILL.md 作为项目级 context 注入 |
+
+> 💡 **项目级安装**：把路径里的 `~/.claude/skills/`（或 `~/.codex/skills/`）换成仓库内的 `.claude/skills/`（或 `.codex/skills/`），skill 只对该项目生效。
+
+### 3️⃣ 对你的 AI 说这句话
 
 ```
 帮我部署一个 VPN
