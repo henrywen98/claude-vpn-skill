@@ -3,7 +3,7 @@
 > **让 Claude 替你搭梯子**——在 VPS 上自动化部署 VLESS + XHTTP + TLS + Cloudflare CDN 架构的自建 VPN，从 0 到能用 10 分钟搞定。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Skill Version](https://img.shields.io/badge/skill-v4.1-blue)](https://github.com/henrywen98/vpn-deploy-skill/releases)
+[![Skill Version](https://img.shields.io/badge/skill-v4.2-blue)](https://github.com/henrywen98/vpn-deploy-skill/releases)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8B5CF6)](https://claude.com/claude-code)
 [![Stars](https://img.shields.io/github/stars/henrywen98/vpn-deploy-skill?style=social)](https://github.com/henrywen98/vpn-deploy-skill/stargazers)
 
@@ -22,6 +22,16 @@
 3. 输出一条可以直接导入 Shadowrocket / v2rayN / Clash 的 VLESS 链接
 
 **目标**：把梯子搭起来能用。不教架构哲学，不搞花哨配置，直接交付一个能连的节点。
+
+## 适合什么人用
+
+- ✅ **想要自己控制的梯子**，不想再续费机场、不想被卷跑路
+- ✅ **手上有 VPS 但不想啃 15 篇博客**，希望 AI 一步步带着搭
+- ✅ **跑过一键脚本但被 GFW 封过 IP**，想要 Cloudflare CDN 隐藏真实 IP 的方案
+- ✅ **嫌 WireGuard / OpenVPN / Shadowsocks / Trojan 太老**，想用更抗检测的 VLESS + XHTTP
+- ✅ **已经用 Claude Code / Codex CLI / OpenCode 干活**，想顺手把运维也交给 AI
+
+不适合：完全没有 VPS、没有域名、不想接触命令行的人 — 建议直接买商业机场。
 
 ## 为什么选这个，而不是其他自建教程
 
@@ -67,10 +77,10 @@
 ```
 安装这个 skill：https://github.com/henrywen98/vpn-deploy-skill
 
-做法：git clone 后，把 x-ui-vpn-skill/skills/x-ui-deploy 这个目录复制到你当前
-CLI 对应的 skills 目录（Claude Code 是 ~/.claude/skills/，Codex CLI 是
-~/.codex/skills/，OpenCode 是 ~/.config/opencode/skills/ 或 ~/.claude/skills/）。
-装完验证一下能被识别，然后删掉 clone 出来的临时目录。
+做法：git clone 后，把 skills/x-ui-deploy 这个目录复制到你当前 CLI 对应的 skills
+目录（Claude Code 是 ~/.claude/skills/，Codex CLI 是 ~/.codex/skills/，OpenCode
+是 ~/.config/opencode/skills/ 或 ~/.claude/skills/）。装完验证一下能被识别，然后
+删掉 clone 出来的临时目录。
 ```
 
 AI 会自动识别自己是哪个 CLI、git clone、复制、清理、确认。整个过程一条指令搞定。
@@ -89,10 +99,10 @@ git clone https://github.com/henrywen98/vpn-deploy-skill.git
 
 | CLI | 安装命令 | 备注 |
 |---|---|---|
-| **[Claude Code](https://claude.com/claude-code)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | 原生 skill 支持 |
-| **[OpenAI Codex CLI](https://developers.openai.com/codex/cli)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.codex/skills/` | 识别同样的 `SKILL.md` 格式 |
-| **[OpenCode](https://opencode.ai)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | 原生读取 `~/.claude/skills/`，与 Claude 共用目录 |
-| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `cat vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy/SKILL.md > ./GEMINI.md` | Gemini 用 Extensions 系统，简化做法是把 SKILL.md 作为项目级 context 注入 |
+| **[Claude Code](https://claude.com/claude-code)** | `cp -r vpn-deploy-skill/skills/x-ui-deploy ~/.claude/skills/` | 原生 skill 支持 |
+| **[OpenAI Codex CLI](https://developers.openai.com/codex/cli)** | `cp -r vpn-deploy-skill/skills/x-ui-deploy ~/.codex/skills/` | 识别同样的 `SKILL.md` 格式 |
+| **[OpenCode](https://opencode.ai)** | `cp -r vpn-deploy-skill/skills/x-ui-deploy ~/.claude/skills/` | 原生读取 `~/.claude/skills/`，与 Claude 共用目录 |
+| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `cat vpn-deploy-skill/skills/x-ui-deploy/SKILL.md > ./GEMINI.md` | Gemini 用 Extensions 系统，简化做法是把 SKILL.md 作为项目级 context 注入 |
 
 > 💡 **项目级安装**：把路径里的 `~/.claude/skills/`（或 `~/.codex/skills/`）换成仓库内的 `.claude/skills/`（或 `.codex/skills/`），skill 只对该项目生效。
 
@@ -140,7 +150,7 @@ git clone https://github.com/henrywen98/vpn-deploy-skill.git
 ## 文件结构
 
 ```
-x-ui-vpn-skill/skills/x-ui-deploy/
+skills/x-ui-deploy/
 ├── SKILL.md                      # 主工作流（Claude 的行为指令）
 └── references/                   # 按需加载的参考文档
     ├── manual-deploy.md           # 15 步完整部署蓝图

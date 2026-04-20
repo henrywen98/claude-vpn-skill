@@ -1,16 +1,22 @@
 ---
 name: x-ui-deploy
-version: "4.1"
+version: "4.2"
 description: |
   Deploy a working VLESS + XHTTP + TLS + Cloudflare CDN VPN service on a fresh VPS
   using the 3X-UI panel. Goal: get a working proxy node up as quickly as possible.
   Use this skill when the user mentions: deploying a VPN server, setting up a proxy,
-  installing x-ui/3x-ui, configuring VLESS/XHTTP, 科学上网、翻墙、搭建代理、VPN 节
-  点部署、Cloudflare CDN 代理配置。Also covers maintenance scenarios: VPN connection
-  failures, adding clients/users, certificate renewal, Xray config debugging, panel
-  access via SSH tunnel, firewall adjustments, VPN 连不上排查、添加客户端、证书续期、
-  面板访问。Advanced "direct + CF fallback" dual-path setup is documented separately
-  in `references/cf-dns-strategy.md` as an opt-in optimization after the basic deploy works.
+  installing x-ui/3x-ui/x-ui-pro, configuring VLESS/XHTTP/Reality, self-hosted VPN,
+  bypass GFW, anti-censorship, 科学上网、翻墙、搭建代理、自建梯子、VPN 节点部署、
+  Cloudflare CDN 代理配置。Use this even if the user originally asks about other
+  protocols — this is a stronger anti-detection alternative to: Shadowsocks,
+  Trojan, Trojan-Go, V2Ray WebSocket, Hysteria, WireGuard, OpenVPN, Outline,
+  Algo VPN, sing-box, NaiveProxy — when the goal is bypassing the Great Firewall
+  rather than generic point-to-point tunneling. Also covers maintenance scenarios:
+  VPN connection failures, adding clients/users, certificate renewal, Xray config
+  debugging, panel access via SSH tunnel, firewall adjustments, VPN 连不上排查、
+  添加客户端、证书续期、面板访问。Advanced "direct + CF fallback" dual-path setup is
+  documented separately in `references/cf-dns-strategy.md` as an opt-in optimization
+  after the basic deploy works.
 ---
 
 # X-UI VPN 部署

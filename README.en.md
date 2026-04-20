@@ -3,7 +3,7 @@
 > **Let Claude set up your VPN.** Automatically deploy a self-hosted VPN (VLESS + XHTTP + TLS + Cloudflare CDN) on your VPS. Zero to working node in about 10 minutes.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Skill Version](https://img.shields.io/badge/skill-v4.1-blue)](https://github.com/henrywen98/vpn-deploy-skill/releases)
+[![Skill Version](https://img.shields.io/badge/skill-v4.2-blue)](https://github.com/henrywen98/vpn-deploy-skill/releases)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8B5CF6)](https://claude.com/claude-code)
 [![Stars](https://img.shields.io/github/stars/henrywen98/vpn-deploy-skill?style=social)](https://github.com/henrywen98/vpn-deploy-skill/stargazers)
 
@@ -26,6 +26,16 @@ A **Claude Code Skill** (an extension that plugs into [Claude Code](https://clau
 3. Output a VLESS link you can paste directly into Shadowrocket / v2rayN / Clash
 
 **Goal**: Get a working VPN node up, fast. No architectural preaching, no feature bloat, just a node that works.
+
+## When to use this skill
+
+- ✅ **You want a VPN you fully control**, no more renewing commercial subscriptions or losing your provider overnight
+- ✅ **You have a VPS but don't want to read 15 blog posts** — let an AI walk you through it step by step
+- ✅ **You ran a one-click script and got your IP blocked by the GFW**, and want a Cloudflare-CDN-fronted setup that hides your origin IP
+- ✅ **WireGuard / OpenVPN / Shadowsocks / Trojan feel dated** — you want VLESS + XHTTP for stronger anti-detection
+- ✅ **You already use Claude Code / Codex CLI / OpenCode**, and want to hand off ops to your AI as well
+
+Not for you if: you don't have a VPS, don't have a domain, or don't want to touch a terminal — buy a commercial proxy service instead.
 
 ## Why this over other self-hosting guides
 
@@ -71,10 +81,10 @@ Paste this into Claude Code / Codex CLI / OpenCode:
 ```
 Install this skill: https://github.com/henrywen98/vpn-deploy-skill
 
-How: git clone the repo, then copy the folder x-ui-vpn-skill/skills/x-ui-deploy
-into the skills directory of the CLI you're currently running (Claude Code:
-~/.claude/skills/, Codex CLI: ~/.codex/skills/, OpenCode: ~/.config/opencode/skills/
-or ~/.claude/skills/). Verify the skill is recognized, then remove the cloned
+How: git clone the repo, then copy the folder skills/x-ui-deploy into the skills
+directory of the CLI you're currently running (Claude Code: ~/.claude/skills/,
+Codex CLI: ~/.codex/skills/, OpenCode: ~/.config/opencode/skills/ or
+~/.claude/skills/). Verify the skill is recognized, then remove the cloned
 temp directory.
 ```
 
@@ -94,10 +104,10 @@ Then drop the skill into your AI CLI's skills directory:
 
 | CLI | Install command | Notes |
 |---|---|---|
-| **[Claude Code](https://claude.com/claude-code)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | Native skill support |
-| **[OpenAI Codex CLI](https://developers.openai.com/codex/cli)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.codex/skills/` | Recognizes the same `SKILL.md` format |
-| **[OpenCode](https://opencode.ai)** | `cp -r vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy ~/.claude/skills/` | Natively reads `~/.claude/skills/`, shares directory with Claude Code |
-| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `cat vpn-deploy-skill/x-ui-vpn-skill/skills/x-ui-deploy/SKILL.md > ./GEMINI.md` | Gemini uses an Extensions system. Simplest path: inject `SKILL.md` as project-level context |
+| **[Claude Code](https://claude.com/claude-code)** | `cp -r vpn-deploy-skill/skills/x-ui-deploy ~/.claude/skills/` | Native skill support |
+| **[OpenAI Codex CLI](https://developers.openai.com/codex/cli)** | `cp -r vpn-deploy-skill/skills/x-ui-deploy ~/.codex/skills/` | Recognizes the same `SKILL.md` format |
+| **[OpenCode](https://opencode.ai)** | `cp -r vpn-deploy-skill/skills/x-ui-deploy ~/.claude/skills/` | Natively reads `~/.claude/skills/`, shares directory with Claude Code |
+| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `cat vpn-deploy-skill/skills/x-ui-deploy/SKILL.md > ./GEMINI.md` | Gemini uses an Extensions system. Simplest path: inject `SKILL.md` as project-level context |
 
 > 💡 **Project-level install**: Replace `~/.claude/skills/` (or `~/.codex/skills/`) with in-repo `.claude/skills/` (or `.codex/skills/`) to scope the skill to one project.
 
@@ -145,7 +155,7 @@ Enabled by default, no configuration needed:
 ## File layout
 
 ```
-x-ui-vpn-skill/skills/x-ui-deploy/
+skills/x-ui-deploy/
 ├── SKILL.md                      # Main workflow (Claude's instructions)
 └── references/                   # Loaded on demand
     ├── manual-deploy.md           # Full 15-step deployment script
