@@ -56,7 +56,7 @@
 - VPS：Debian 11/12 或 Ubuntu 20.04+（搬瓦工、Vultr、DigitalOcean、AWS Lightsail 都行）
 - 域名：已接入 Cloudflare（域名本身放哪家注册商都行）
 - Cloudflare API：Global API Key 或 API Token（用来自动签证书）
-- [Claude Code](https://claude.com/claude-code)（装个 CLI 就行，不需要任何订阅）
+- [Claude Code](https://claude.com/claude-code)（免费 CLI 工具，使用时需 Anthropic 账号授权：Claude.ai Pro 订阅 **或** API Key 按量付费，二选一）
 
 ### 2️⃣ 安装 skill
 

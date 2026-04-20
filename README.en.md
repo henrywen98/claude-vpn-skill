@@ -60,7 +60,7 @@ Client → Cloudflare CDN (443) → Nginx (TLS reverse proxy) → Xray (127.0.0.
 - A VPS running Debian 11/12 or Ubuntu 20.04+ (BandwagonHost, Vultr, DigitalOcean, AWS Lightsail, etc.)
 - A domain attached to Cloudflare (registrar doesn't matter)
 - Cloudflare API credentials (Global API Key or API Token)
-- [Claude Code](https://claude.com/claude-code) installed (free CLI; no subscription required)
+- [Claude Code](https://claude.com/claude-code) (free CLI tool; requires an Anthropic account at runtime — either a Claude.ai Pro/Max subscription **or** an API key with pay-per-use billing)
 
 ### 2️⃣ Install the skill
 
